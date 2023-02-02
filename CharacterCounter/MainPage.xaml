@@ -1,0 +1,430 @@
+﻿<Page
+    x:Class="CharacterCounter.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:CharacterCounter"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/DesktopTextboxStyle.xaml" />
+                <ResourceDictionary Source="/Styles/ButtonStyle1.xaml" />
+                <ResourceDictionary Source="/Styles/RoundButtonStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Storyboard x:Name="AlertNotification">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PopUp" Storyboard.TargetProperty="(UIElement.Opacity)">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0.99" />
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0.99" />
+                    <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0" />
+                </DoubleAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PopUp" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="0">
+                        <DiscreteObjectKeyFrame.Value>
+                            <Visibility>Visible</Visibility>
+                        </DiscreteObjectKeyFrame.Value>
+                    </DiscreteObjectKeyFrame>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.4">
+                        <DiscreteObjectKeyFrame.Value>
+                            <Visibility>Visible</Visibility>
+                        </DiscreteObjectKeyFrame.Value>
+                    </DiscreteObjectKeyFrame>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.8">
+                        <DiscreteObjectKeyFrame.Value>
+                            <Visibility>Visible</Visibility>
+                        </DiscreteObjectKeyFrame.Value>
+                    </DiscreteObjectKeyFrame>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:2">
+                        <DiscreteObjectKeyFrame.Value>
+                            <Visibility>Collapsed</Visibility>
+                        </DiscreteObjectKeyFrame.Value>
+                    </DiscreteObjectKeyFrame>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Name="LayoutRoot" Background="{ThemeResource AppBackBrush}">
+        <RelativePanel>
+
+            <Grid
+                x:Name="TextBoxGrid"
+                Margin="24,24,24,230"
+                Background="{ThemeResource TextBackgroundBrush}"
+                BorderBrush="{ThemeResource TextBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="8"
+                RelativePanel.AlignBottomWithPanel="True"
+                RelativePanel.AlignLeftWithPanel="True"
+                RelativePanel.AlignRightWithPanel="True"
+                RelativePanel.AlignTopWithPanel="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Button
+                    Name="copyButton"
+                    Width="40"
+                    Height="30"
+                    Margin="0,8,8,0"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Click="TextboxCopy_Click"
+                    Content="&#xE8C8;"
+                    FontFamily="Segoe MDL2 Assets"
+                    Style="{StaticResource ButtonStyle1}" />
+                <TextBox
+                    x:Name="myTextBox"
+                    x:Uid="MyTextBox"
+                    Grid.Row="1"
+                    Margin="12,4,12,12"
+                    AcceptsReturn="True"
+                    Background="{ThemeResource TextBackgroundBrush}"
+                    BorderThickness="0"
+                    PlaceholderText="Input text here..."
+                    Style="{StaticResource DesktopTextboxStyle}"
+                    TextWrapping="Wrap" />
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        x:Name="myButton"
+                        x:Uid="Count"
+                        Width="136"
+                        Margin="12,0,0,12"
+                        VerticalAlignment="Center"
+                        Background="#0067C0"
+                        BorderBrush="Transparent"
+                        Click="count_Click"
+                        Content="Count"
+                        Foreground="White"
+                        Style="{StaticResource RoundButtonStyle1}" />
+                    <Button
+                        x:Name="clearButton"
+                        x:Uid="Clear"
+                        Grid.Column="1"
+                        Width="136"
+                        Margin="12,0,0,12"
+                        VerticalAlignment="Top"
+                        Background="{ThemeResource ButtonBackgroundBrush}"
+                        BorderBrush="Transparent"
+                        Content="Clear"
+                        Foreground="{ThemeResource ButtonForegroundColor}"
+                        RightTapped="HoldingToRewind_RightTapped"
+                        Style="{StaticResource RoundButtonStyle1}"
+                        Tapped="Clear_Tapped" />
+                </Grid>
+
+            </Grid>
+
+
+            <Grid
+                x:Name="ResultGrid"
+                Margin="24"
+                Background="{ThemeResource TextBackgroundBrush}"
+                BorderBrush="{ThemeResource TextBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="8"
+                RelativePanel.AlignBottomWithPanel="True"
+                RelativePanel.AlignLeftWithPanel="True"
+                RelativePanel.AlignRightWithPanel="True"
+                RelativePanel.AlignTopWithPanel="False">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Margin="0,8,8,0" HorizontalAlignment="Right">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        Name="ThemeButton"
+                        Grid.Column="1"
+                        Width="40"
+                        Height="30"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Click="ThemeButton_Click"
+                        Content="&#xE708;"
+                        FontFamily="Segoe MDL2 Assets"
+                        RelativePanel.RightOf="copyButton"
+                        Style="{StaticResource ButtonStyle1}"
+                        Visibility="Collapsed" />
+
+                    <Button
+                        Name="rateButton"
+                        Width="40"
+                        Height="30"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Click="Rate_Click"
+                        Content=""
+                        FontFamily="Segoe MDL2 Assets"
+                        RelativePanel.AlignRightWithPanel="True"
+                        RelativePanel.AlignTopWithPanel="True"
+                        Style="{StaticResource ButtonStyle1}" />
+                </Grid>
+
+                <Grid
+                    Name="Result"
+                    Grid.Row="1"
+                    Margin="0,12,0,12"
+                    RelativePanel.AlignBottomWithPanel="True"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True">
+                    <!--<Grid.Transitions>
+                    <TransitionCollection>
+                        <EntranceThemeTransition/>
+                    </TransitionCollection>
+                </Grid.Transitions>-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,1,0,0">
+                                <TextBlock
+                                    x:Uid="Characters"
+                                    Margin="12,12,12,3"
+                                    HorizontalAlignment="Center"
+                                    FontSize="15"
+                                    Foreground="{ThemeResource CountForegroundBrush}"
+                                    Text="Character" />
+
+                            </Border>
+                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,0,0,0">
+                                <TextBlock
+                                    Name="letterNumber"
+                                    Margin="12,0,12,6"
+                                    HorizontalAlignment="Center"
+                                    FontSize="15"
+                                    Foreground="{ThemeResource CountForegroundBrush}" />
+                            </Border>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,1,0,0">
+                                <TextBlock
+                                    x:Uid="Word"
+                                    Margin="12,12,12,3"
+                                    HorizontalAlignment="Center"
+                                    FontSize="15"
+                                    Foreground="{ThemeResource CountForegroundBrush}"
+                                    Text="Word" />
+
+                            </Border>
+                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,0,0,0">
+                                <TextBlock
+                                    Name="englishWordNumber"
+                                    Margin="12,0,12,6"
+                                    HorizontalAlignment="Center"
+                                    FontSize="15"
+                                    Foreground="{ThemeResource CountForegroundBrush}" />
+                            </Border>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,1,1,0">
+                                <TextBlock
+                                    x:Uid="Punctuation"
+                                    Margin="4,12,4,3"
+                                    HorizontalAlignment="Center"
+                                    FontSize="15"
+                                    Foreground="{ThemeResource CountForegroundBrush}"
+                                    Text="Punctuation" />
+
+                            </Border>
+                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,0,1,0">
+                                <TextBlock
+                                    Name="punctuationNumber"
+                                    Margin="12,0,12,6"
+                                    HorizontalAlignment="Center"
+                                    FontSize="15"
+                                    Foreground="{ThemeResource CountForegroundBrush}" />
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,1,0,0">
+                                <TextBlock
+                                    x:Uid="Chinese"
+                                    Margin="12,12,12,3"
+                                    HorizontalAlignment="Center"
+                                    FontSize="15"
+                                    Foreground="{ThemeResource CountForegroundBrush}"
+                                    Text="Chinese" />
+
+                            </Border>
+                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,0,0,1">
+                                <TextBlock
+                                    Name="chineseNumber"
+                                    Margin="12,0,12,6"
+                                    HorizontalAlignment="Center"
+                                    FontSize="15"
+                                    Foreground="{ThemeResource CountForegroundBrush}" />
+                            </Border>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,1,0,0">
+                                <TextBlock
+                                    x:Uid="English"
+                                    Margin="12,12,12,3"
+                                    HorizontalAlignment="Center"
+                                    FontSize="15"
+                                    Foreground="{ThemeResource CountForegroundBrush}"
+                                    Text="English" />
+
+                            </Border>
+                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,0,0,1">
+                                <TextBlock
+                                    Name="englishNumber"
+                                    Margin="12,0,12,6"
+                                    HorizontalAlignment="Center"
+                                    FontSize="15"
+                                    Foreground="{ThemeResource CountForegroundBrush}" />
+                            </Border>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,1,1,0">
+                                <TextBlock
+                                    x:Uid="Number"
+                                    Margin="12,12,12,3"
+                                    HorizontalAlignment="Center"
+                                    FontSize="15"
+                                    Foreground="{ThemeResource CountForegroundBrush}"
+                                    Text="Number" />
+
+                            </Border>
+                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,0,1,1">
+                                <TextBlock
+                                    Name="digitNumber"
+                                    Margin="12,0,12,6"
+                                    HorizontalAlignment="Center"
+                                    FontSize="15"
+                                    Foreground="{ThemeResource CountForegroundBrush}" />
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+            </Grid>
+
+            <Grid
+                x:Name="AboutGrid"
+                Margin="24,8,24,24"
+                Background="{ThemeResource TextBackgroundBrush}"
+                BorderBrush="{ThemeResource TextBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="8"
+                RelativePanel.AlignLeftWith="ResultGrid"
+                RelativePanel.AlignRightWithPanel="True"
+                RelativePanel.Below="ResultGrid"
+                Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Margin="8"
+                    HorizontalAlignment="Center"
+                    FontSize="15"
+                    Tapped="TextBlock_Tapped"
+                    Text="Logo designed by ICONS8" />
+            </Grid>
+
+        </RelativePanel>
+
+        <Grid
+            x:Name="PopUp"
+            Grid.Row="1"
+            Visibility="Collapsed">
+            <!--<Grid  Background="Black" Opacity="0.7"/>-->
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel
+                    Margin="4"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="{ThemeResource AppBackBrush}"
+                    CornerRadius="3">
+                    <TextBlock
+                        x:Uid="Notification"
+                        Margin="0,8,0,0"
+                        Padding="5"
+                        HorizontalAlignment="Center"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Text="Notification" />
+                    <TextBlock
+                        Name="PopupContent"
+                        x:Uid="PopupContent"
+                        Margin="16,0,16,8"
+                        Padding="12"
+                        Text="Copied"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="740" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TextBoxGrid.Margin" Value="24,24,320,24" />
+
+                        <Setter Target="ResultGrid.(RelativePanel.AlignLeftWithPanel)" Value="False" />
+                        <Setter Target="ResultGrid.Width" Value="280" />
+                        <Setter Target="ResultGrid.Margin" Value="24,24,24,0" />
+
+                        <Setter Target="ResultGrid.(RelativePanel.AlignBottomWithPanel)" Value="False" />
+                        <Setter Target="ResultGrid.(RelativePanel.AlignTopWithPanel)" Value="True" />
+
+                        <Setter Target="myButton.Margin" Value="24,0,12,24" />
+                        <Setter Target="myButton.Width" Value="160" />
+                        <Setter Target="clearButton.Width" Value="160" />
+
+                        <Setter Target="AboutGrid.Visibility" Value="Visible" />
+
+                        <!--<Setter Target="TextBoxGrid.(RelativePanel.AlignBottomWithPanel)"
+                            Value="True" />
+                        <Setter Target="Result.(RelativePanel.RightOf)"
+                            Value="TextBoxGrid" />
+                        <Setter Target="Result.(RelativePanel.AlignLeftWithPanel)"
+                            Value="False" />
+                        <Setter Target="Result.(RelativePanel.AlignTopWithPanel)"
+                            Value="True" />-->
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters />
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</Page>

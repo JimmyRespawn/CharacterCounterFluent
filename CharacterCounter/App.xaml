@@ -1,0 +1,53 @@
+﻿<Application
+    x:Class="CharacterCounter.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CharacterCounter">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Dark">
+                    <!--  Dominant Color  -->
+                    <Color x:Key="AppBackColor">#232735</Color>
+                    <SolidColorBrush x:Key="AppBackBrush" Color="{ThemeResource AppBackColor}" />
+                    <Color x:Key="CountBorderColor">#2E323E</Color>
+                    <SolidColorBrush x:Key="CountBorderBrush" Color="{ThemeResource CountBorderColor}" />
+                    <Color x:Key="CountForegroundColor">#FFFFFF</Color>
+                    <SolidColorBrush x:Key="CountForegroundBrush" Color="{ThemeResource CountForegroundColor}" />
+
+                    <Color x:Key="TextBackgroundColor">#2E323E</Color>
+                    <SolidColorBrush x:Key="TextBackgroundBrush" Color="{ThemeResource TextBackgroundColor}" />
+                    <Color x:Key="TextForegroundColor">#FFFFFF</Color>
+                    <SolidColorBrush x:Key="TextForegroundBrush" Color="{ThemeResource TextForegroundColor}" />
+                    <Color x:Key="TextBorderColor">#202330</Color>
+                    <SolidColorBrush x:Key="TextBorderBrush" Color="{ThemeResource TextBorderColor}" />
+
+                    <Color x:Key="ButtonForegroundColor">#7F8189</Color>
+                    <SolidColorBrush x:Key="ButtonForegroundBrush" Color="{ThemeResource ButtonForegroundColor}" />
+                    <Color x:Key="ButtonBackgroundColor">#353945</Color>
+                    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="{ThemeResource ButtonBackgroundColor}" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Light">
+                    <Color x:Key="AppBackColor">#F8F9FC</Color>
+                    <SolidColorBrush x:Key="AppBackBrush" Color="{ThemeResource AppBackColor}" />
+                    <Color x:Key="CountBorderColor">#FDFDFE</Color>
+                    <SolidColorBrush x:Key="CountBorderBrush" Color="{ThemeResource CountBorderColor}" />
+                    <Color x:Key="CountForegroundColor">#000000</Color>
+                    <SolidColorBrush x:Key="CountForegroundBrush" Color="{ThemeResource CountForegroundColor}" />
+
+                    <Color x:Key="TextBackgroundColor">#FDFDFE</Color>
+                    <SolidColorBrush x:Key="TextBackgroundBrush" Color="{ThemeResource TextBackgroundColor}" />
+                    <Color x:Key="TextForegroundColor">#000000</Color>
+                    <SolidColorBrush x:Key="TextForegroundBrush" Color="{ThemeResource TextForegroundColor}" />
+                    <Color x:Key="TextBorderColor">#E8EBED</Color>
+                    <SolidColorBrush x:Key="TextBorderBrush" Color="{ThemeResource TextBorderColor}" />
+
+                    <Color x:Key="ButtonForegroundColor">#9E9E9F</Color>
+                    <SolidColorBrush x:Key="ButtonForegroundBrush" Color="{ThemeResource ButtonForegroundColor}" />
+                    <Color x:Key="ButtonBackgroundColor">#F7F7F9</Color>
+                    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="{ThemeResource ButtonBackgroundColor}" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
