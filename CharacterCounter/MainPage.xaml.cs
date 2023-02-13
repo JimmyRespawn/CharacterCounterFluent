@@ -16,6 +16,8 @@ using Windows.UI.ViewManagement;
 using System.Text.RegularExpressions;
 using Windows.Foundation.Metadata;
 using Windows.ApplicationModel.DataTransfer;
+using CharacterCounter.Services;
+using CharacterCounter.Helpers;
 
 namespace CharacterCounter
 {
@@ -23,21 +25,17 @@ namespace CharacterCounter
     {
         string backedString = "";
         int easterEgg = 0;
-        int firstLaunch = 0;
-        //string clipBoard = "";
+        public bool isFirstLaunch = true;
 
         public MainPage()
         {
             this.InitializeComponent();
-            this.NavigationCacheMode = NavigationCacheMode.Required;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (firstLaunch == 0)
+            if (isFirstLaunch)
             {
-                //Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-
                 //AutoDetectTheme
                 string theme = "Light";
                 UISettings uiSettings = new UISettings();
@@ -48,23 +46,23 @@ namespace CharacterCounter
                 if (theme=="Light")
                 {
                     this.RequestedTheme = ElementTheme.Light;
-                    ThemeButton.Content = "\uE706";
+                    //ThemeButton.Content = "\uE706";
 
                     var ttb = ApplicationView.GetForCurrentView().TitleBar;
-                    ttb.BackgroundColor = ConvertStringToColor("#F8F9FC");
+                    ttb.BackgroundColor = GeneralHelper.ConvertStringToColor("#F8F9FC");
                     ttb.ForegroundColor = Windows.UI.Colors.Black;
-                    ttb.ButtonBackgroundColor = ConvertStringToColor("#F8F9FC");
+                    ttb.ButtonBackgroundColor = GeneralHelper.ConvertStringToColor("#F8F9FC");
                     ttb.ButtonForegroundColor = Windows.UI.Colors.Black;
-                    ttb.InactiveBackgroundColor = ConvertStringToColor("#F8F9FC");
+                    ttb.InactiveBackgroundColor = GeneralHelper.ConvertStringToColor("#F8F9FC");
                     ttb.InactiveForegroundColor = Windows.UI.Colors.Black;
-                    ttb.ButtonInactiveBackgroundColor = ConvertStringToColor("#F8F9FC");
+                    ttb.ButtonInactiveBackgroundColor = GeneralHelper.ConvertStringToColor("#F8F9FC");
                     ttb.ButtonInactiveForegroundColor = Windows.UI.Colors.Black;
 
                     ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 400, Height = 450 });
 
                     if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
                     {
-                        Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundColor = ConvertStringToColor("#F8F9FC");
+                        Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundColor = GeneralHelper.ConvertStringToColor("#F8F9FC");
                         Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundOpacity = 1;
                         Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ForegroundColor = Windows.UI.Colors.Black;
                     }
@@ -72,20 +70,21 @@ namespace CharacterCounter
                 else
                 {
                     var ttb = ApplicationView.GetForCurrentView().TitleBar;
-                    ttb.BackgroundColor = ConvertStringToColor("#232735");
+                    ttb.BackgroundColor = GeneralHelper.ConvertStringToColor("#232735");
                     ttb.ForegroundColor = Windows.UI.Colors.White;
-                    ttb.ButtonBackgroundColor = ConvertStringToColor("#232735");
+                    ttb.ButtonBackgroundColor = GeneralHelper.ConvertStringToColor("#232735");
                     ttb.ButtonForegroundColor = Windows.UI.Colors.White;
-                    ttb.InactiveBackgroundColor = ConvertStringToColor("#232735");
+                    ttb.InactiveBackgroundColor = GeneralHelper.ConvertStringToColor("#232735");
                     ttb.InactiveForegroundColor = Windows.UI.Colors.White;
-                    ttb.ButtonInactiveBackgroundColor = ConvertStringToColor("#232735");
+                    ttb.ButtonInactiveBackgroundColor = GeneralHelper.ConvertStringToColor("#232735");
                     ttb.ButtonInactiveForegroundColor = Windows.UI.Colors.White;
 
                     ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 400, Height = 450 });
 
+                    //Detect Phone status bar
                     if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
                     {
-                        Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundColor = ConvertStringToColor("#232735");
+                        Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundColor = GeneralHelper.ConvertStringToColor("#232735");
                         Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundOpacity = 1;
                         Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ForegroundColor = Windows.UI.Colors.White;
                     }
@@ -103,10 +102,10 @@ namespace CharacterCounter
                 //    }
                 //};
             }
-            firstLaunch = 1;
+            isFirstLaunch = false;
         }
         
-        private void TextboxCopy_Click(object sender, RoutedEventArgs e)
+        private void CopyFullTextButton_Click(object sender, RoutedEventArgs e)
         {
             string copy = myTextBox.Text;
 
@@ -120,15 +119,21 @@ namespace CharacterCounter
             AlertNotification.Begin();
         }
 
-        private async void Rate_Click(object sender, RoutedEventArgs e)
+        private async void RateButton_Click(object sender, RoutedEventArgs e)
         {
-            await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-windows-store://review/?ProductId=9WZDNCRDXTF1"));
+            await GeneralHelper.Rate("9WZDNCRDXTF1");
         }
 
-        private void count_Click(object sender, RoutedEventArgs e)
+        private async void CountButton_Click(object sender, RoutedEventArgs e)
         {
             string str = myTextBox.Text;
             char[] ch = str.ToCharArray();
+
+            //int letternumber = await ICountLetter.AllLetterCountAsync(ch);//字符总数
+            //int chinesenumber = await ICountLetter.ChineseLetterCountAsync(str);//中文字符总数
+            //int englishwordnumber = await ICountLetter.EnglishWordCountAsync(str);//英语单词总数
+            //int digitnumber = await ICountLetter.DigitCountAsync(ch);//数字总数
+            //int punctuationnumber = await ICountLetter.PunctuationCount(ch);//标点总数
 
             int letternumber = allLetterCount(ch);//字符总数
             int chinesenumber = chineseLetterCount(str);//中文字符总数
@@ -140,9 +145,7 @@ namespace CharacterCounter
             letternumber = letternumber + digitnumber + punctuationnumber;
 
             if (chinesenumber > 0 && englishwordnumber > 0)
-            {
                 englishwordnumber = 0;
-            }
 
             if (letternumber != 0)
                 letterNumber.Text = Convert.ToString(letternumber);
@@ -157,6 +160,7 @@ namespace CharacterCounter
             if (englishwordnumber != 0)
                 englishWordNumber.Text = Convert.ToString(englishwordnumber);
 
+            //Easter Egge Trigger
             if (letternumber == 0)
             {
                 easterEgg++;
@@ -169,27 +173,17 @@ namespace CharacterCounter
             }
         }
 
-        private void clearButton_Click(object sender, RoutedEventArgs e)
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
-            if (myTextBox.Text != "")
-            {
-                backedString = myTextBox.Text;
-                var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-                PopupContent.Text = resourceLoader.GetString("Cleared");
-                AlertNotification.Begin();
-            }
-
-            letterNumber.Text = "";
-            punctuationNumber.Text = "";
-            chineseNumber.Text = "";
-            englishNumber.Text = "";
-            digitNumber.Text = "";
-            englishWordNumber.Text = "";
-            myTextBox.Text = "";
-
+            ClearHisoryCount();
         }
 
-        private void Clear_Tapped(object sender, TappedRoutedEventArgs e)
+        private void ClearButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            ClearHisoryCount();
+        }
+
+        private void ClearHisoryCount()
         {
             if (myTextBox.Text != "")
             {
@@ -210,7 +204,6 @@ namespace CharacterCounter
 
         private void HoldingToRewind_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-
             if (myTextBox.Text == "" && backedString != "")
             {
                 myTextBox.Text = backedString;
@@ -221,6 +214,12 @@ namespace CharacterCounter
             }
         }
 
+        private async void TextBlock_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://icons8.com/"));
+        }
+
+        //Tobe Cleared
         //algorithm for counting letters
         public static int allLetterCount(char[] ch)
         {
@@ -299,92 +298,60 @@ namespace CharacterCounter
             return punctuationNumber;
         }
 
-        public Windows.UI.Color ConvertStringToColor(String hex)
-        {
-            //remove the # at the front
-            hex = hex.Replace("#", "");
+        //private void ThemeButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+        //    if (this.RequestedTheme == ElementTheme.Dark)
+        //    {
+        //        this.RequestedTheme = ElementTheme.Light;
+        //        localSettings.Values["theme"] = "1";
+        //        ThemeButton.Content = "\uE706";
+        //        var ttb = ApplicationView.GetForCurrentView().TitleBar;
+        //        ttb.BackgroundColor = ConvertStringToColor("#F8F9FC");
+        //        ttb.ForegroundColor = Windows.UI.Colors.Black;
+        //        ttb.ButtonBackgroundColor = ConvertStringToColor("#F8F9FC");
+        //        ttb.ButtonForegroundColor = Windows.UI.Colors.Black;
+        //        ttb.InactiveBackgroundColor = ConvertStringToColor("#F8F9FC");
+        //        ttb.InactiveForegroundColor = Windows.UI.Colors.Black;
+        //        ttb.ButtonInactiveBackgroundColor = ConvertStringToColor("#F8F9FC");
+        //        ttb.ButtonInactiveForegroundColor = Windows.UI.Colors.Black;
 
-            byte a = 255;
-            byte r = 255;
-            byte g = 255;
-            byte b = 255;
+        //        ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 400, Height = 450 });
 
-            int start = 0;
+        //        if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+        //        {
+        //            Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundColor = ConvertStringToColor("#F8F9FC");
+        //            Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundOpacity = 1;
+        //            Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ForegroundColor = Windows.UI.Colors.Black;
+        //        }
 
-            //handle ARGB strings (8 characters long)
-            if (hex.Length == 8)
-            {
-                a = byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
-                start = 2;
-            }
-
-            //convert RGB characters to bytes
-            r = byte.Parse(hex.Substring(start, 2), System.Globalization.NumberStyles.HexNumber);
-            g = byte.Parse(hex.Substring(start + 2, 2), System.Globalization.NumberStyles.HexNumber);
-            b = byte.Parse(hex.Substring(start + 4, 2), System.Globalization.NumberStyles.HexNumber);
-
-            return Windows.UI.Color.FromArgb(a, r, g, b);
-        }
-
-        private void ThemeButton_Click(object sender, RoutedEventArgs e)
-        {
-            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            if (this.RequestedTheme == ElementTheme.Dark)
-            {
-                this.RequestedTheme = ElementTheme.Light;
-                localSettings.Values["theme"] = "1";
-                ThemeButton.Content = "\uE706";
-                var ttb = ApplicationView.GetForCurrentView().TitleBar;
-                ttb.BackgroundColor = ConvertStringToColor("#F8F9FC");
-                ttb.ForegroundColor = Windows.UI.Colors.Black;
-                ttb.ButtonBackgroundColor = ConvertStringToColor("#F8F9FC");
-                ttb.ButtonForegroundColor = Windows.UI.Colors.Black;
-                ttb.InactiveBackgroundColor = ConvertStringToColor("#F8F9FC");
-                ttb.InactiveForegroundColor = Windows.UI.Colors.Black;
-                ttb.ButtonInactiveBackgroundColor = ConvertStringToColor("#F8F9FC");
-                ttb.ButtonInactiveForegroundColor = Windows.UI.Colors.Black;
-
-                ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 400, Height = 450 });
-
-                if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
-                {
-                    Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundColor = ConvertStringToColor("#F8F9FC");
-                    Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundOpacity = 1;
-                    Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ForegroundColor = Windows.UI.Colors.Black;
-                }
-
-            }
-            else
-            {
-                this.RequestedTheme = ElementTheme.Dark;
-                localSettings.Values.Remove("theme");
-                ThemeButton.Content = "\uE708";
+        //    }
+        //    else
+        //    {
+        //        this.RequestedTheme = ElementTheme.Dark;
+        //        localSettings.Values.Remove("theme");
+        //        ThemeButton.Content = "\uE708";
 
 
-                var ttb = ApplicationView.GetForCurrentView().TitleBar;
-                ttb.BackgroundColor = ConvertStringToColor("#232735");
-                ttb.ForegroundColor = Windows.UI.Colors.White;
-                ttb.ButtonBackgroundColor = ConvertStringToColor("#232735");
-                ttb.ButtonForegroundColor = Windows.UI.Colors.White;
-                ttb.InactiveBackgroundColor = ConvertStringToColor("#232735");
-                ttb.InactiveForegroundColor = Windows.UI.Colors.White;
-                ttb.ButtonInactiveBackgroundColor = ConvertStringToColor("#232735");
-                ttb.ButtonInactiveForegroundColor = Windows.UI.Colors.White;
+        //        var ttb = ApplicationView.GetForCurrentView().TitleBar;
+        //        ttb.BackgroundColor = ConvertStringToColor("#232735");
+        //        ttb.ForegroundColor = Windows.UI.Colors.White;
+        //        ttb.ButtonBackgroundColor = ConvertStringToColor("#232735");
+        //        ttb.ButtonForegroundColor = Windows.UI.Colors.White;
+        //        ttb.InactiveBackgroundColor = ConvertStringToColor("#232735");
+        //        ttb.InactiveForegroundColor = Windows.UI.Colors.White;
+        //        ttb.ButtonInactiveBackgroundColor = ConvertStringToColor("#232735");
+        //        ttb.ButtonInactiveForegroundColor = Windows.UI.Colors.White;
 
-                ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 400, Height = 450 });
+        //        ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 400, Height = 450 });
 
-                if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
-                {
-                    Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundColor = ConvertStringToColor("#232735");
-                    Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundOpacity = 1;
-                    Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ForegroundColor = Windows.UI.Colors.White;
-                }
-            }
-        }
-
-        private async void TextBlock_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://icons8.com/"));
-        }
+        //        if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+        //        {
+        //            Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundColor = ConvertStringToColor("#232735");
+        //            Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundOpacity = 1;
+        //            Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ForegroundColor = Windows.UI.Colors.White;
+        //        }
+        //    }
+        //}
     }
 }

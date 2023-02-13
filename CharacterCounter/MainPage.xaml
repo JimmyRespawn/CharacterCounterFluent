@@ -45,10 +45,8 @@
             </Storyboard>
         </ResourceDictionary>
     </Page.Resources>
-
     <Grid Name="LayoutRoot" Background="{ThemeResource AppBackBrush}">
         <RelativePanel>
-
             <Grid
                 x:Name="TextBoxGrid"
                 Margin="24,24,24,230"
@@ -66,14 +64,14 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Button
-                    Name="copyButton"
+                    Name="CopyFullTextButton"
                     Width="40"
                     Height="30"
                     Margin="0,8,8,0"
                     HorizontalAlignment="Right"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Click="TextboxCopy_Click"
+                    Click="CopyFullTextButton_Click"
                     Content="&#xE8C8;"
                     FontFamily="Segoe MDL2 Assets"
                     Style="{StaticResource ButtonStyle1}" />
@@ -88,26 +86,25 @@
                     PlaceholderText="Input text here..."
                     Style="{StaticResource DesktopTextboxStyle}"
                     TextWrapping="Wrap" />
-
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Button
-                        x:Name="myButton"
+                        Name="CountButton"
                         x:Uid="Count"
                         Width="136"
                         Margin="12,0,0,12"
                         VerticalAlignment="Center"
                         Background="#0067C0"
                         BorderBrush="Transparent"
-                        Click="count_Click"
+                        Click="CountButton_Click"
                         Content="Count"
                         Foreground="White"
                         Style="{StaticResource RoundButtonStyle1}" />
                     <Button
-                        x:Name="clearButton"
+                        Name="ClearButton"
                         x:Uid="Clear"
                         Grid.Column="1"
                         Width="136"
@@ -119,12 +116,9 @@
                         Foreground="{ThemeResource ButtonForegroundColor}"
                         RightTapped="HoldingToRewind_RightTapped"
                         Style="{StaticResource RoundButtonStyle1}"
-                        Tapped="Clear_Tapped" />
+                        Tapped="ClearButton_Tapped" />
                 </Grid>
-
             </Grid>
-
-
             <Grid
                 x:Name="ResultGrid"
                 Margin="24"
@@ -145,7 +139,7 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Button
+                    <!--<Button
                         Name="ThemeButton"
                         Grid.Column="1"
                         Width="40"
@@ -157,15 +151,14 @@
                         FontFamily="Segoe MDL2 Assets"
                         RelativePanel.RightOf="copyButton"
                         Style="{StaticResource ButtonStyle1}"
-                        Visibility="Collapsed" />
-
+                        Visibility="Collapsed" />-->
                     <Button
-                        Name="rateButton"
+                        Name="RateButton"
                         Width="40"
                         Height="30"
                         Background="Transparent"
                         BorderBrush="Transparent"
-                        Click="Rate_Click"
+                        Click="RateButton_Click"
                         Content=""
                         FontFamily="Segoe MDL2 Assets"
                         RelativePanel.AlignRightWithPanel="True"
@@ -174,17 +167,16 @@
                 </Grid>
 
                 <Grid
-                    Name="Result"
                     Grid.Row="1"
                     Margin="0,12,0,12"
                     RelativePanel.AlignBottomWithPanel="True"
                     RelativePanel.AlignLeftWithPanel="True"
                     RelativePanel.AlignRightWithPanel="True">
                     <!--<Grid.Transitions>
-                    <TransitionCollection>
-                        <EntranceThemeTransition/>
-                    </TransitionCollection>
-                </Grid.Transitions>-->
+                        <TransitionCollection>
+                            <EntranceThemeTransition />
+                        </TransitionCollection>
+                    </Grid.Transitions>-->
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
@@ -325,7 +317,6 @@
                         </StackPanel>
                     </Grid>
                 </Grid>
-
             </Grid>
 
             <Grid
@@ -339,10 +330,6 @@
                 RelativePanel.AlignRightWithPanel="True"
                 RelativePanel.Below="ResultGrid"
                 Visibility="Collapsed">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
                 <TextBlock
                     Margin="8"
                     HorizontalAlignment="Center"
@@ -352,7 +339,6 @@
             </Grid>
 
         </RelativePanel>
-
         <Grid
             x:Name="PopUp"
             Grid.Row="1"
@@ -392,36 +378,21 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="TextBoxGrid.Margin" Value="24,24,320,24" />
-
                         <Setter Target="ResultGrid.(RelativePanel.AlignLeftWithPanel)" Value="False" />
                         <Setter Target="ResultGrid.Width" Value="280" />
                         <Setter Target="ResultGrid.Margin" Value="24,24,24,0" />
-
                         <Setter Target="ResultGrid.(RelativePanel.AlignBottomWithPanel)" Value="False" />
                         <Setter Target="ResultGrid.(RelativePanel.AlignTopWithPanel)" Value="True" />
-
-                        <Setter Target="myButton.Margin" Value="24,0,12,24" />
-                        <Setter Target="myButton.Width" Value="160" />
-                        <Setter Target="clearButton.Width" Value="160" />
-
+                        <Setter Target="CountButton.Margin" Value="24,0,12,24" />
+                        <Setter Target="CountButton.Width" Value="160" />
+                        <Setter Target="ClearButton.Width" Value="160" />
                         <Setter Target="AboutGrid.Visibility" Value="Visible" />
-
-                        <!--<Setter Target="TextBoxGrid.(RelativePanel.AlignBottomWithPanel)"
-                            Value="True" />
-                        <Setter Target="Result.(RelativePanel.RightOf)"
-                            Value="TextBoxGrid" />
-                        <Setter Target="Result.(RelativePanel.AlignLeftWithPanel)"
-                            Value="False" />
-                        <Setter Target="Result.(RelativePanel.AlignTopWithPanel)"
-                            Value="True" />-->
                     </VisualState.Setters>
                 </VisualState>
-
                 <VisualState x:Name="NarrowState">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
-
                     <VisualState.Setters />
                 </VisualState>
             </VisualStateGroup>
