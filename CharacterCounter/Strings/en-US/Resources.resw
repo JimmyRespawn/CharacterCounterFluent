@@ -145,6 +145,9 @@ If you want to restore text please right click or hold the same button</value>
   <data name="English.Text" xml:space="preserve">
     <value>English</value>
   </data>
+  <data name="LodoDeisngedBy.Text" xml:space="preserve">
+    <value>Logo designed by ICONS8</value>
+  </data>
   <data name="MyTextBox.PlaceholderText" xml:space="preserve">
     <value>Input text here...</value>
   </data>

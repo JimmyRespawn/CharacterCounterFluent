@@ -145,6 +145,9 @@
   <data name="English.Text" xml:space="preserve">
     <value>英文</value>
   </data>
+  <data name="LodoDeisngedBy.Text" xml:space="preserve">
+    <value>图标由 ICONS8 设计</value>
+  </data>
   <data name="MyTextBox.PlaceholderText" xml:space="preserve">
     <value>输入(或粘贴)统计字数的内容...</value>
   </data>

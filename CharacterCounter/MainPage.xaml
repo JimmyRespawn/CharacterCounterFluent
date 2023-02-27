@@ -331,6 +331,7 @@
                 RelativePanel.Below="ResultGrid"
                 Visibility="Collapsed">
                 <TextBlock
+                    x:Uid="LodoDeisngedBy"
                     Margin="8"
                     HorizontalAlignment="Center"
                     FontSize="15"

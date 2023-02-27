@@ -126,6 +126,13 @@ namespace CharacterCounter
 
         private async void CountButton_Click(object sender, RoutedEventArgs e)
         {
+            letterNumber.Text = "";
+            punctuationNumber.Text = "";
+            chineseNumber.Text = "";
+            englishNumber.Text = "";
+            digitNumber.Text = "";
+            englishWordNumber.Text = "";
+
             string str = myTextBox.Text;
             char[] ch = str.ToCharArray();
 
@@ -135,17 +142,17 @@ namespace CharacterCounter
             //int digitnumber = await ICountLetter.DigitCountAsync(ch);//数字总数
             //int punctuationnumber = await ICountLetter.PunctuationCount(ch);//标点总数
 
-            int letternumber = allLetterCount(ch);//字符总数
+            int letternumber = allLetterCount(str);//字符总数
             int chinesenumber = chineseLetterCount(str);//中文字符总数
             int englishwordnumber = englishWordCount(str);//英语单词总数
-            int digitnumber = digitCount(ch);//数字总数
+            int digitnumber = digitCount(str);//数字总数
             int punctuationnumber = punctuationCount(ch);//标点总数
 
-            int englishnumber = letternumber - chinesenumber;//英语字符总数
-            letternumber = letternumber + digitnumber + punctuationnumber;
+            int englishnumber = englishCharacterCount(str);//英语字符总数
+            //letternumber = letternumber + digitnumber + punctuationnumber;
 
-            if (chinesenumber > 0 && englishwordnumber > 0)
-                englishwordnumber = 0;
+            //if (chinesenumber > 0 && englishwordnumber > 0)
+            //    englishwordnumber = 0;
 
             if (letternumber != 0)
                 letterNumber.Text = Convert.ToString(letternumber);
@@ -221,34 +228,27 @@ namespace CharacterCounter
 
         //Tobe Cleared
         //algorithm for counting letters
-        public static int allLetterCount(char[] ch)
+        public static int allLetterCount(string ch)
         {
             //char[] ch = str.ToCharArray();
-            int letterNumber = 0;
-            for (int i = 0; i < ch.Length; i++)
-            {
-                if (Char.IsLetter(ch[i]))
-                {
-                    letterNumber++;
-                }
-            }
-            return letterNumber;
+            //int letterNumber = 0;
+            //for (int i = 0; i < ch.Length; i++)
+            //{
+            //    if (Char.IsLetter(ch[i]))
+            //    {
+            //        letterNumber++;
+            //    }
+            //}
+
+            // 使用Length属性获取字符串的长度 Chatgpt
+            int length = ch.Length;
+
+            return length;
         }
 
         public static int chineseLetterCount(string str)
         {
             int chinesenumber = 0;
-
-            //for (int i = 0; i < ch.Length; i++)
-            //{
-            //    for (int temp = 0X4e00; temp <= 0X9fa5; temp++)
-            //    {
-            //        if (ch[i] == Convert.ToChar(temp))
-            //        {
-            //            chinesenumber++;
-            //        }
-            //    }
-            //}
             Regex regex = new Regex(@"^[\u4E00-\u9fbb]+$");
             for (int i = 0; i < str.Length; i++)
             {
@@ -263,29 +263,40 @@ namespace CharacterCounter
 
         public static int englishWordCount(string str)
         {
-            int englishWordNumber;
-            string[] words = str.Split(new char[] { ',', ' ', '.', '?', '!', ':', ';', '—', '(', ')', '[', ']', '{', '}', '"', '\'' });
-            if (str == "")
-                englishWordNumber = 0;
-            else
-                englishWordNumber = words.Length;
-            return englishWordNumber;
+            //int englishWordNumber;
+            //string[] words = str.Split(new char[] { ',', ' ', '.', '?', '!', ':', ';', '—', '(', ')', '[', ']', '{', '}', '"', '\'' });
+            //if (str == "")
+            //    englishWordNumber = 0;
+            //else
+            //    englishWordNumber = words.Length;
+
+            //ChatGPT
+            //统计匹配结果的个数
+            Regex regex = new Regex(@"\b[a-zA-Z]+\b");
+            int newEnglishWordCount = regex.Matches(str).Count;
+
+            return newEnglishWordCount;
         }
 
-        public static int digitCount(char[] ch)
+        public static int digitCount(string str)
         {
-            int digitNumber = 0;
-            for (int i = 0; i < ch.Length; i++)
-            {
-                if (Char.IsDigit(ch[i]))
-                {
-                    digitNumber++;
-                }
-            }
+            //int digitNumber = 0;
+            //for (int i = 0; i < ch.Length; i++)
+            //{
+            //    if (Char.IsDigit(ch[i]))
+            //    {
+            //        digitNumber++;
+            //    }
+            //}
+
+            // 使用正则表达式匹配阿拉伯数字
+            Regex regex = new Regex(@"\d");
+            // 统计匹配结果的个数
+            int digitNumber = regex.Matches(str).Count;
             return digitNumber;
         }
 
-        public static int punctuationCount(char[] ch)
+        public static int punctuationCount(Char[] ch)
         {
             int punctuationNumber = 0;
             for (int i = 0; i < ch.Length; i++)
@@ -295,7 +306,29 @@ namespace CharacterCounter
                     punctuationNumber++;
                 }
             }
+
+            // 定义一个正则表达式，匹配半角标点符号
+            //string pattern = @"[,.!?:;""'`~\-_+=\[\]\(\)\{\}\|\\\/\*#@%&$<>^\s]";
+
+            // 定义一个正则表达式，匹配中文和英文标点符号
+            //string pattern = @"[,.!?:;""'`~\-_+=\[\]\(\)\{\}\|\\\/\*#@%&$<>^\s]|[，。！？：；“”‘’～——＋＝【】（）｛｝｜、＊＃＠％￥《》＾]";
+
+            //// 使用Regex.Matches方法，返回所有匹配的结果
+            //MatchCollection matches = Regex.Matches(str, pattern);
+            //punctuationNumber = matches.Count;
+
             return punctuationNumber;
+        }
+
+        public static int englishCharacterCount(string str)
+        {
+            //
+            //定义一个正则表达式用来匹配英文字符
+            Regex regex = new Regex("[A-Za-z]");
+
+            //使用正则表达式在字符串中查找所有匹配项，并返回匹配项的数量
+            int count = regex.Matches(str).Count;
+            return count;
         }
 
         //private void ThemeButton_Click(object sender, RoutedEventArgs e)
