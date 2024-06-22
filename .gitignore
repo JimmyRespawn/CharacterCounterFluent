@@ -361,3 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/LetterCounterWinUI3/LetterCounterWinUI3 (Package)/Package.appxmanifest
