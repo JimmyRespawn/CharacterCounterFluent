@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>LetterCounterWinUI3</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x86;x64;ARM64</Platforms>
+    <RuntimeIdentifiers Condition="$([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')) &gt;= 8">win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifiers Condition="$([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')) &lt; 8">win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <UseWinUI>true</UseWinUI>
+    <!--<WindowsAppSDkSelfContained>True</WindowsAppSDkSelfContained>-->
+  </PropertyGroup>
+  <!--Win10-->
+  <PropertyGroup>
+    <UseRidGraph>true</UseRidGraph>
+    <StartupObject></StartupObject>
+    <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
+    <UseWindowsForms>False</UseWindowsForms>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Assets\icon.ico" />
+    <None Remove="Views\LetterCounterPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240607001" />
+    <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\LetterCounterPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Update="Strings\en-US\Resources.resw">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </PRIResource>
+    <PRIResource Update="Strings\zh-hans\Resources.resw">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </PRIResource>
+  </ItemGroup>
+</Project>
