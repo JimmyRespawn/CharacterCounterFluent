@@ -48,6 +48,9 @@
                     <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="{ThemeResource ButtonBackgroundColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

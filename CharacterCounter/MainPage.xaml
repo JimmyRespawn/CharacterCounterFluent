@@ -5,6 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:CharacterCounter"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    Background="{ThemeResource LayerFillColorDefaultBrush}"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -45,12 +48,12 @@
             </Storyboard>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid Name="LayoutRoot" Background="{ThemeResource AppBackBrush}">
+    <Grid Name="LayoutRoot">
         <RelativePanel>
             <Grid
                 x:Name="TextBoxGrid"
                 Margin="24,24,24,230"
-                Background="{ThemeResource TextBackgroundBrush}"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
                 BorderBrush="{ThemeResource TextBorderBrush}"
                 BorderThickness="1"
                 CornerRadius="8"
@@ -81,7 +84,7 @@
                     Grid.Row="1"
                     Margin="12,4,12,12"
                     AcceptsReturn="True"
-                    Background="{ThemeResource TextBackgroundBrush}"
+                    Background="{ThemeResource LayerFillColorDefaultBrush}"
                     BorderThickness="0"
                     PlaceholderText="Input text here..."
                     Style="{StaticResource DesktopTextboxStyle}"
@@ -122,7 +125,7 @@
             <Grid
                 x:Name="ResultGrid"
                 Margin="24"
-                Background="{ThemeResource TextBackgroundBrush}"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
                 BorderBrush="{ThemeResource TextBorderBrush}"
                 BorderThickness="1"
                 CornerRadius="8"
@@ -188,7 +191,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,1,0,0">
+                            <Border>
                                 <TextBlock
                                     x:Uid="Characters"
                                     Margin="12,12,12,3"
@@ -198,7 +201,7 @@
                                     Text="Character" />
 
                             </Border>
-                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,0,0,0">
+                            <Border>
                                 <TextBlock
                                     Name="letterNumber"
                                     Margin="12,0,12,6"
@@ -208,7 +211,7 @@
                             </Border>
                         </StackPanel>
                         <StackPanel Grid.Column="1">
-                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,1,0,0">
+                            <Border>
                                 <TextBlock
                                     x:Uid="Word"
                                     Margin="12,12,12,3"
@@ -218,7 +221,7 @@
                                     Text="Word" />
 
                             </Border>
-                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,0,0,0">
+                            <Border>
                                 <TextBlock
                                     Name="englishWordNumber"
                                     Margin="12,0,12,6"
@@ -228,7 +231,7 @@
                             </Border>
                         </StackPanel>
                         <StackPanel Grid.Column="2">
-                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,1,1,0">
+                            <Border>
                                 <TextBlock
                                     x:Uid="Punctuation"
                                     Margin="4,12,4,3"
@@ -238,7 +241,7 @@
                                     Text="Punctuation" />
 
                             </Border>
-                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,0,1,0">
+                            <Border>
                                 <TextBlock
                                     Name="punctuationNumber"
                                     Margin="12,0,12,6"
@@ -256,7 +259,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,1,0,0">
+                            <Border>
                                 <TextBlock
                                     x:Uid="Chinese"
                                     Margin="12,12,12,3"
@@ -266,7 +269,7 @@
                                     Text="Chinese" />
 
                             </Border>
-                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,0,0,1">
+                            <Border>
                                 <TextBlock
                                     Name="chineseNumber"
                                     Margin="12,0,12,6"
@@ -276,7 +279,7 @@
                             </Border>
                         </StackPanel>
                         <StackPanel Grid.Column="1">
-                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,1,0,0">
+                            <Border>
                                 <TextBlock
                                     x:Uid="English"
                                     Margin="12,12,12,3"
@@ -286,7 +289,7 @@
                                     Text="English" />
 
                             </Border>
-                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,0,0,1">
+                            <Border>
                                 <TextBlock
                                     Name="englishNumber"
                                     Margin="12,0,12,6"
@@ -296,7 +299,7 @@
                             </Border>
                         </StackPanel>
                         <StackPanel Grid.Column="2">
-                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,1,1,0">
+                            <Border>
                                 <TextBlock
                                     x:Uid="Number"
                                     Margin="12,12,12,3"
@@ -306,7 +309,7 @@
                                     Text="Number" />
 
                             </Border>
-                            <Border BorderBrush="{ThemeResource CountBorderBrush}" BorderThickness="1,0,1,1">
+                            <Border>
                                 <TextBlock
                                     Name="digitNumber"
                                     Margin="12,0,12,6"
@@ -322,7 +325,7 @@
             <Grid
                 x:Name="AboutGrid"
                 Margin="24,8,24,24"
-                Background="{ThemeResource TextBackgroundBrush}"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
                 BorderBrush="{ThemeResource TextBorderBrush}"
                 BorderThickness="1"
                 CornerRadius="8"
