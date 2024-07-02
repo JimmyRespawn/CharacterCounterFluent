@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="47059JimmyLin.39919659E9F27" Publisher="CN=C684D286-A23A-4725-9BEA-70F2E6D63F90" Version="2.7.11.0" />
+  <Identity Name="Jimmy" Publisher="US=" Version="2.7.11.0" />
   <mp:PhoneIdentity PhoneProductId="108b2a0c-4cfd-4029-88df-cbf353ba9f4f" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>ms-resource:AppNames</DisplayName>
-    <PublisherDisplayName>JimmyRespawn</PublisherDisplayName>
+    <PublisherDisplayName>Jimmy</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
